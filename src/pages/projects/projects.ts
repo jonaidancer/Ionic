@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { NavController, NavParams } from 'ionic-angular';
-
+import {Storage} from '@ionic/storage';
+import { AngularFireDatabase, FirebaseListObservable } from 'angularfire2/database';
 /**
  * Generated class for the ProjectsPage page.
  *
@@ -13,34 +14,37 @@ import { NavController, NavParams } from 'ionic-angular';
   templateUrl: 'projects.html',
 })
 export class ProjectsPage {
-    projects:any= [
-      {
-        name: 'Emerson Electric',
-        description: 'fart is wahstasiylg'
-      },
-      {
-          name:'Try Jquery',
-          description: 'ohif;kldhfj;ljh',
-          image:'http://riotfest.org/wp-content/uploads/2017/03/fart-spongebob.jpg',
-      
-      },
-      {
-        name:'Webpage Portfolio',
-        description:'jdhkjshksjshksj'
+  newProject:any = {};
+  projects: FirebaseListObservable<any[]>;
 
-      }
-    ];
+  constructor(
+  public navCtrl: NavController,
+  public navParams: NavParams,
+  private db: AngularFireDatabase
+ ) {
+  //ON LOAD
+  this.projects = db.list('/projects'),
+  
+    
+  }); 
+}
 
-  constructor(public navCtrl: NavController, public navParams: NavParams) {
-  }
 
   ionViewDidLoad() {
     console.log('ionViewDidLoad ProjectsPage');
   }
 
-  test(project) {
+   {
 
-    console.log(project);
-   }
-  
+
+  }
+
+  addProject() {
+    this.projects.push(this.newProject);
+    event.preventDefault();
+    this.newProject.name='';
+    this.newproject.description='';
+    this.newProject.image='';
+  }
+
 }
